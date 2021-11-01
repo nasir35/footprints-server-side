@@ -28,33 +28,33 @@ async function run(){
             const cursor = packageCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
-        })
+        });
         // GET api for specific package
         app.get('/packages/:id', async (req, res) => {
             const id = req.params.id;
             const query = {_id : ObjectId(id)};
             const package = await packageCollection.findOne(query)
             res.send(package);
-        })
+        });
 
         // GET api for blog
         app.get('/blogs', async(req, res) => {
             const cursor = blogCollection.find({});
             const blogs = await cursor.toArray();
             res.send(blogs);
-        })
+        });
         // GET api for reviews
         app.get('/reviews', async(req, res) => {
             const cursor = reviewCollection.find({}).limit(8);
             const reviews = await cursor.toArray();
             res.send(reviews);
-        })
+        });
         // GET api for orders
         app.get('/orders', async(req, res) => {
             const cursor = orderCollection.find({});
             const orders = await cursor.toArray();
             res.send(orders);
-        })
+        });
 
 
         // POST api for adding package
@@ -62,13 +62,13 @@ async function run(){
             const data = req.body;
             const result = await packageCollection.insertOne(data);
             res.send(result);
-        })
+        });
         // POST api for adding blogs
         app.post('/blogs', async(req, res) => {
             const data = req.body;
             const result = await blogCollection.insertOne(data);
             res.send(result);
-        })
+        });
         // POST api for adding reviews
         app.post('/reviews', async(req, res) => {
             const data = req.body;
@@ -88,7 +88,21 @@ async function run(){
             const query = {_id : ObjectId(id)};
             const result = await orderCollection.deleteOne(query);
             res.send(result);
-        })
+        });
+
+        //UPDATE api for order status
+        app.put('/orders/:id', async(req, res) => {
+            const id = req.params.id;
+            const filter = {_id : ObjectId(id)};
+            const options = { upsert : true};
+            const updateDoc = {
+                $set: {
+                    orderStatus : 'Approved'
+                },
+            };
+            const result = await orderCollection.updateOne(filter,updateDoc,options);
+            res.send(result);
+        });
 
     }
     finally{
