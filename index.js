@@ -74,11 +74,19 @@ async function run(){
             const data = req.body;
             const result = await reviewCollection.insertOne(data);
             res.send(result);
-        })
+        });
         // POST api for adding order
         app.post('/placeorder', async(req, res) => {
             const data = req.body;
             const result = await orderCollection.insertOne(data);
+            res.send(result);
+        });
+
+        //DELETE api for order
+        app.delete('/orders/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id : ObjectId(id)};
+            const result = await orderCollection.deleteOne(query);
             res.send(result);
         })
 
