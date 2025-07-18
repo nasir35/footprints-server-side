@@ -1,4 +1,5 @@
 const express = require("express");
+const serverless = require("serverless-http");
 const { MongoClient, ObjectId } = require("mongodb");
 const cors = require("cors");
 require("dotenv").config();
@@ -156,6 +157,4 @@ if (require.main === module) {
     console.log(`🚀 Server is running on http://localhost:${port}`);
   });
 }
-// Export the handler
-const serverless = require("serverless-http");
 module.exports = serverless(app);
